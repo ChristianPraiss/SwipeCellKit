@@ -246,14 +246,15 @@ open class SwipeTableViewCell: UITableViewCell {
         
         addSubview(actionsView)
 
-        actionsView.heightAnchor.constraint(equalTo: heightAnchor, constant: -(options.buttonTopInset ?? 0)).isActive = true
-        actionsView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 2).isActive = true
-        actionsView.topAnchor.constraint(equalTo: topAnchor, constant: options.buttonTopInset ?? 0).isActive = true
+        actionsView.heightAnchor.constraint(equalTo: heightAnchor, constant: -(options.buttonInsets.top + options.buttonInsets.bottom)).isActive = true
+        actionsView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 2, constant: -(options.buttonInsets.left + options.buttonInsets.right)).isActive = true
+        actionsView.topAnchor.constraint(equalTo: topAnchor, constant: options.buttonInsets.top).isActive = true
+        actionsView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: options.buttonInsets.bottom).isActive = true
         
         if orientation == .left {
-            actionsView.rightAnchor.constraint(equalTo: leftAnchor).isActive = true
+            actionsView.rightAnchor.constraint(equalTo: leftAnchor, constant:-options.buttonInsets.right).isActive = true
         } else {
-            actionsView.leftAnchor.constraint(equalTo: rightAnchor).isActive = true
+            actionsView.leftAnchor.constraint(equalTo: rightAnchor, constant:-options.buttonInsets.left).isActive = true
         }
         
         self.actionsView = actionsView
