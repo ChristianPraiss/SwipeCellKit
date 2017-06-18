@@ -120,6 +120,8 @@ class SwipeActionsView: UIView {
             let action = actions[index]
             let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
             let wrapperView = SwipeActionButtonWrapperView(frame: frame, action: action, orientation: orientation, contentWidth: minimumButtonWidth)
+            button.backgroundColor = wrapperView.backgroundColor
+            wrapperView.backgroundColor = .clear
             wrapperView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             wrapperView.addSubview(button)
             
