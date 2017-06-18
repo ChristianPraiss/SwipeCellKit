@@ -252,9 +252,9 @@ open class SwipeTableViewCell: UITableViewCell {
         actionsView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: options.buttonInsets.bottom).isActive = true
         
         if orientation == .left {
-            actionsView.rightAnchor.constraint(equalTo: leftAnchor).isActive = true
+            actionsView.rightAnchor.constraint(equalTo: leftAnchor, constant: -options.buttonInsets.right).isActive = true
         } else {
-            actionsView.leftAnchor.constraint(equalTo: rightAnchor).isActive = true
+            actionsView.leftAnchor.constraint(equalTo: rightAnchor, constant: -options.buttonInsets.left).isActive = true
         }
         
         self.actionsView = actionsView
