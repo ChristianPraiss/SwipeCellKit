@@ -120,7 +120,20 @@ class SwipeActionsView: UIView {
             let action = actions[index]
             let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
             let wrapperView = SwipeActionButtonWrapperView(frame: frame, action: action, orientation: orientation, contentWidth: minimumButtonWidth)
-            button.backgroundColor = wrapperView.backgroundColor
+            
+            guard action.hasBackgroundColor else { return }
+            
+            if let backgroundColor = action.backgroundColor {
+                self.backgroundColor = backgroundColor
+            } else {
+                switch action.style {
+                case .destructive:
+                    button.backgroundColor = #colorLiteral(red: 1, green: 0.2352941176, blue: 0.1882352941, alpha: 1)
+                default:
+                    button.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
+                }
+            }
+            
             wrapperView.backgroundColor = .clear
             wrapperView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             wrapperView.addSubview(button)
@@ -244,23 +257,6 @@ class SwipeActionButtonWrapperView: UIView {
         }
         
         super.init(frame: frame)
-        
-        configureBackgroundColor(with: action)
-    }
-    
-    func configureBackgroundColor(with action: SwipeAction) {
-        guard action.hasBackgroundColor else { return }
-        
-        if let backgroundColor = action.backgroundColor {
-            self.backgroundColor = backgroundColor
-        } else {
-            switch action.style {
-            case .destructive:
-                backgroundColor = #colorLiteral(red: 1, green: 0.2352941176, blue: 0.1882352941, alpha: 1)
-            default:
-                backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
-            }
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
