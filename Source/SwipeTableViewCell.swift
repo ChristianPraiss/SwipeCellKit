@@ -18,13 +18,13 @@ open class SwipeTableViewCell: UITableViewCell {
     public weak var delegate: SwipeTableViewCellDelegate?
     
     var animator: SwipeAnimator?
-
+    
     var state = SwipeState.center
     var originalCenter: CGFloat = 0
     
     weak var tableView: UITableView?
     var actionsView: SwipeActionsView?
-
+    
     var originalLayoutMargins: UIEdgeInsets = .zero
     
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
@@ -101,7 +101,7 @@ open class SwipeTableViewCell: UITableViewCell {
                 tableView.panGestureRecognizer.removeTarget(self, action: nil)
                 tableView.panGestureRecognizer.addTarget(self, action: #selector(handleTablePan(gesture:)))
                 return
-            }            
+            }
         }
     }
     
@@ -121,19 +121,19 @@ open class SwipeTableViewCell: UITableViewCell {
         switch gesture.state {
         case .began:
             stopAnimatorIfNeeded()
-
+            
             originalCenter = center.x
             
             if state == .center || state == .animatingToCenter {
                 let velocity = gesture.velocity(in: target)
                 let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
-
+                
                 showActionsView(for: orientation)
             }
             
         case .changed:
             guard let actionsView = actionsView else { return }
-
+            
             let translation = gesture.translation(in: target).x
             scrollRatio = 1.0
             
@@ -177,7 +177,7 @@ open class SwipeTableViewCell: UITableViewCell {
             }
         case .ended:
             guard let actionsView = actionsView else { return }
-
+            
             let velocity = gesture.velocity(in: target)
             state = targetState(forVelocity: velocity)
             
@@ -187,18 +187,18 @@ open class SwipeTableViewCell: UITableViewCell {
                 let targetOffset = targetCenter(active: state.isActive)
                 let distance = targetOffset - center.x
                 let normalizedVelocity = velocity.x * scrollRatio / distance
-
+                
                 animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
                     if self.state == .center {
                         self.reset()
                     }
                 }
-
+                
                 if !state.isActive {
                     notifyEditingStateChange(active: false)
                 }
             }
-
+            
         default: break
         }
     }
@@ -237,15 +237,17 @@ open class SwipeTableViewCell: UITableViewCell {
         self.actionsView?.removeFromSuperview()
         self.actionsView = nil
         
-        let actionsView = SwipeActionsView(maxSize: bounds.size,
-                                           options: options,
-                                           orientation: orientation,
-                                           actions: actions)
+        var size = bounds.size
+        size.width -= (options.buttonInsets.left + options.buttonInsets.right)
+        let actionsView = SwipeActionsView(maxSize: size,
+        options: options,
+        orientation: orientation,
+        actions: actions)
         
         actionsView.delegate = self
         
         addSubview(actionsView)
-
+        
         actionsView.heightAnchor.constraint(equalTo: heightAnchor, constant: -(options.buttonInsets.top + options.buttonInsets.bottom)).isActive = true
         actionsView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 2, constant: -(options.buttonInsets.left + options.buttonInsets.right)).isActive = true
         actionsView.topAnchor.constraint(equalTo: topAnchor, constant: options.buttonInsets.top).isActive = true
@@ -258,7 +260,7 @@ open class SwipeTableViewCell: UITableViewCell {
         }
         
         self.actionsView = actionsView
-
+        
         state = .dragging
         
         notifyEditingStateChange(active: true)
@@ -268,7 +270,7 @@ open class SwipeTableViewCell: UITableViewCell {
         guard let actionsView = actionsView,
             let tableView = tableView,
             let indexPath = tableView.indexPath(for: self) else { return }
-
+        
         if active {
             delegate?.tableView(tableView, willBeginEditingRowAt: indexPath, for: actionsView.orientation)
         } else {
@@ -298,7 +300,7 @@ open class SwipeTableViewCell: UITableViewCell {
                 }
             }
         }()
-
+        
         animator.addAnimations({
             self.center = CGPoint(x: offset, y: self.center.y)
             
@@ -310,7 +312,7 @@ open class SwipeTableViewCell: UITableViewCell {
         }
         
         self.animator = animator
-
+        
         animator.startAnimation()
     }
     
@@ -319,7 +321,7 @@ open class SwipeTableViewCell: UITableViewCell {
             animator?.stopAnimation(true)
         }
     }
-
+    
     func handleTap(gesture: UITapGestureRecognizer) {
         hideSwipe(animated: true)
     }
@@ -336,7 +338,7 @@ open class SwipeTableViewCell: UITableViewCell {
     /// :nodoc:
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let point = convert(point, to: superview!)
-
+        
         if !UIAccessibilityIsVoiceOverRunning() {
             for cell in tableView?.swipeCells ?? [] {
                 if (cell.state == .left || cell.state == .right) && !cell.contains(point: point) {
@@ -385,10 +387,10 @@ extension SwipeTableViewCell {
     
     func targetCenter(active: Bool) -> CGFloat {
         guard let actionsView = actionsView, active == true else { return bounds.midX }
-
+        
         return bounds.midX - actionsView.preferredWidth * actionsView.orientation.scale
     }
-
+    
     func reset() {
         state = .center
         
@@ -410,13 +412,13 @@ extension SwipeTableViewCell: SwipeActionsViewDelegate {
         if action == actionsView.expandableAction, let expansionStyle = actionsView.options.expansionStyle {
             // Trigger the expansion (may already be expanded from drag)
             actionsView.setExpanded(expanded: true)
-
+            
             switch expansionStyle.completionAnimation {
             case .bounce:
                 perform(action: action, hide: true)
             case .fill(let fillOption):
                 performFillAction(action: action, fillOption: fillOption)
-            }            
+            }
         } else {
             perform(action: action, hide: action.hidesWhenSelected)
         }
@@ -424,7 +426,7 @@ extension SwipeTableViewCell: SwipeActionsViewDelegate {
     
     func perform(action: SwipeAction, hide: Bool) {
         guard let tableView = tableView, let indexPath = tableView.indexPath(for: self) else { return }
-
+        
         if hide {
             hideSwipe(animated: true)
         }
@@ -438,10 +440,10 @@ extension SwipeTableViewCell: SwipeActionsViewDelegate {
             let indexPath = tableView.indexPath(for: self) else { return }
         
         let newCenter = bounds.midX - (bounds.width + actionsView.minimumButtonWidth) * actionsView.orientation.scale
-
+        
         action.completionHandler = { [weak self] style in
             action.completionHandler = nil
-
+            
             self?.delegate?.tableView(tableView, didEndEditingRowAt: indexPath, for: actionsView.orientation)
             
             switch style {
@@ -493,7 +495,7 @@ extension SwipeTableViewCell {
             if UIAccessibilityIsVoiceOverRunning() {
                 tableView?.hideSwipeCell()
             }
-
+            
             if let cells = tableView?.visibleCells as? [SwipeTableViewCell] {
                 let cell = cells.first(where: { $0.state.isActive })
                 return cell == nil ? false : true
@@ -506,7 +508,7 @@ extension SwipeTableViewCell {
             let translation = gestureRecognizer.translation(in: view)
             return abs(translation.y) <= abs(translation.x)
         }
-
+        
         return true
     }
 }
