@@ -45,7 +45,7 @@ open class SwipeTableViewCell: UITableViewCell {
     /// :nodoc:
     override open var center: CGPoint {
         didSet {
-            actionsView?.visibleWidth = abs(frame.minX)
+            actionsView?.visibleWidth = abs(frame.minX) - 15.0
         }
     }
     
