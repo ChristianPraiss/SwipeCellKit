@@ -198,6 +198,12 @@ open class SwipeTableViewCell: UITableViewCell {
                 let distance = targetOffset - center.x
                 let normalizedVelocity = velocity.x * scrollRatio / distance
                 
+                
+                if let tableView = self.tableView,
+                    let indexPath = tableView.indexPath(for: self)  {
+                    self.delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: targetOffset - target.bounds.size.width / 2)
+                }
+                
                 animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
                     if self.state == .center {
                         self.reset()
