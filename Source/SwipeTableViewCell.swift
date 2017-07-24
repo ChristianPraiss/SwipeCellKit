@@ -280,7 +280,7 @@ open class SwipeTableViewCell: UITableViewCell {
     
     func animate(duration: Double = 0.7, toOffset offset: CGFloat, withInitialVelocity velocity: CGFloat = 0, completion: ((Bool) -> Void)? = nil) {
         stopAnimatorIfNeeded()
-        
+    
         layoutIfNeeded()
         
         let animator: SwipeAnimator = {
@@ -314,6 +314,11 @@ open class SwipeTableViewCell: UITableViewCell {
         self.animator = animator
         
         animator.startAnimation()
+        
+        guard let actionsView = actionsView,
+            let tableView = tableView,
+            let indexPath = tableView.indexPath(for: self) else { return }
+        delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: offset)
     }
     
     func stopAnimatorIfNeeded() {
