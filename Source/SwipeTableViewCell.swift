@@ -182,7 +182,7 @@ open class SwipeTableViewCell: UITableViewCell {
             }
             if let tableView = tableView,
                 let indexPath = tableView.indexPath(for: self)  {
-                delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: target.center.x)
+                delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: target.center.x - target.bounds.size.width / 2)
             }
 
         case .ended:
