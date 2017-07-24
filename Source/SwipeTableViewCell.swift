@@ -143,7 +143,14 @@ open class SwipeTableViewCell: UITableViewCell {
                 target.center.x = gesture.elasticTranslation(in: target,
                                                              withLimit: .zero,
                                                              fromOriginalCenter: CGPoint(x: originalCenter, y: 0)).x
+                
+                
                 scrollRatio = elasticScrollRatio
+
+                guard let tableView = tableView,
+                    let indexPath = tableView.indexPath(for: self) else { return }
+                delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: translation)
+                
                 return
             }
             
@@ -314,11 +321,6 @@ open class SwipeTableViewCell: UITableViewCell {
         self.animator = animator
         
         animator.startAnimation()
-        
-        guard let actionsView = actionsView,
-            let tableView = tableView,
-            let indexPath = tableView.indexPath(for: self) else { return }
-        delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: offset)
     }
     
     func stopAnimatorIfNeeded() {
