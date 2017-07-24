@@ -146,7 +146,7 @@ open class SwipeTableViewCell: UITableViewCell {
                 
                 
                 scrollRatio = elasticScrollRatio
-
+                
                 
                 
                 return
@@ -184,7 +184,7 @@ open class SwipeTableViewCell: UITableViewCell {
                 let indexPath = tableView.indexPath(for: self)  {
                 delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: target.center.x - target.bounds.size.width / 2)
             }
-
+            
         case .ended:
             guard let actionsView = actionsView else { return }
             
@@ -201,6 +201,10 @@ open class SwipeTableViewCell: UITableViewCell {
                 animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
                     if self.state == .center {
                         self.reset()
+                    }
+                    if let tableView = self.tableView,
+                        let indexPath = tableView.indexPath(for: self)  {
+                        self.delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: target.center.x - target.bounds.size.width / 2)
                     }
                 }
                 
@@ -250,9 +254,9 @@ open class SwipeTableViewCell: UITableViewCell {
         var size = bounds.size
         size.width -= (options.buttonInsets.left + options.buttonInsets.right)
         let actionsView = SwipeActionsView(maxSize: size,
-        options: options,
-        orientation: orientation,
-        actions: actions)
+                                           options: options,
+                                           orientation: orientation,
+                                           actions: actions)
         
         actionsView.delegate = self
         
@@ -290,7 +294,7 @@ open class SwipeTableViewCell: UITableViewCell {
     
     func animate(duration: Double = 0.7, toOffset offset: CGFloat, withInitialVelocity velocity: CGFloat = 0, completion: ((Bool) -> Void)? = nil) {
         stopAnimatorIfNeeded()
-    
+        
         layoutIfNeeded()
         
         let animator: SwipeAnimator = {
