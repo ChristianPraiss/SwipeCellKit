@@ -147,13 +147,10 @@ open class SwipeTableViewCell: UITableViewCell {
                 
                 scrollRatio = elasticScrollRatio
 
-                guard let tableView = tableView,
-                    let indexPath = tableView.indexPath(for: self) else { return }
-                delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: translation)
+                
                 
                 return
             }
-            
             if let expansionStyle = actionsView.options.expansionStyle {
                 let expanded = expansionStyle.shouldExpand(view: self, gesture: gesture, in: tableView!)
                 let targetOffset = expansionStyle.targetOffset(for: self, in: tableView!)
@@ -178,10 +175,16 @@ open class SwipeTableViewCell: UITableViewCell {
                                                              withLimit: CGSize(width: actionsView.preferredWidth, height: 0),
                                                              fromOriginalCenter: CGPoint(x: originalCenter, y: 0),
                                                              applyingRatio: elasticScrollRatio).x
+                
                 if (target.center.x - originalCenter) / translation != 1.0 {
                     scrollRatio = elasticScrollRatio
                 }
             }
+            if let tableView = tableView,
+                let indexPath = tableView.indexPath(for: self)  {
+                delegate?.tableView(tableView, didMoveRowAt: indexPath, for: actionsView.orientation, toOffset: target.center.x)
+            }
+
         case .ended:
             guard let actionsView = actionsView else { return }
             
