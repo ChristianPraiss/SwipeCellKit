@@ -36,6 +36,7 @@ open class SwipeTableViewCell: UITableViewCell {
     lazy var tapGestureRecognizer: UITapGestureRecognizer = {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:)))
         gesture.delegate = self
+        gesture.cancelsTouchesInView = false
         return gesture
     }()
     
