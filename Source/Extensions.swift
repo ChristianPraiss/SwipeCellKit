@@ -9,19 +9,11 @@ import UIKit
 
 extension UITableView {
     var swipeCells: [SwipeTableViewCell] {
-        return visibleCells as? [SwipeTableViewCell] ?? []
+        return visibleCells.flatMap({ $0 as? SwipeTableViewCell })
     }
     
     func hideSwipeCell() {
         swipeCells.forEach { $0.hideSwipe(animated: true) }
-    }
-    
-    func setGestureEnabled(_ enabled: Bool) {
-        gestureRecognizers?.forEach {
-            guard $0 != panGestureRecognizer else { return }
-            
-            $0.isEnabled = enabled
-        }
     }
 }
 

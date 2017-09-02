@@ -240,9 +240,6 @@ open class SwipeTableViewCell: UITableViewCell {
         let selectedIndexPaths = tableView.indexPathsForSelectedRows
         selectedIndexPaths?.forEach { tableView.deselectRow(at: $0, animated: false) }
         
-        // Temporarily remove table gestures
-        tableView.setGestureEnabled(false)
-        
         configureActionsView(with: actions, for: orientation)
         
         return true
@@ -357,8 +354,10 @@ open class SwipeTableViewCell: UITableViewCell {
     // `SwipeTableCell`.
     /// :nodoc:
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        let point = convert(point, to: superview!)
-        
+        guard let superview = superview else { return false }
+     
+        let point = convert(point, to: superview)
+
         if !UIAccessibilityIsVoiceOverRunning() {
             for cell in tableView?.swipeCells ?? [] {
                 if (cell.state == .left || cell.state == .right) && !cell.contains(point: point) {
@@ -413,8 +412,6 @@ extension SwipeTableViewCell {
     
     func reset() {
         state = .center
-        
-        tableView?.setGestureEnabled(true)
         
         actionsView?.removeFromSuperview()
         actionsView = nil
@@ -524,7 +521,8 @@ extension SwipeTableViewCell {
         
         if gestureRecognizer == panGestureRecognizer,
             let view = gestureRecognizer.view,
-            let gestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+            let gestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer
+        {
             let translation = gestureRecognizer.translation(in: view)
             return abs(translation.y) <= abs(translation.x)
         }
