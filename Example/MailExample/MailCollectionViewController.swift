@@ -54,8 +54,6 @@ class MailCollectionViewController: UICollectionViewController, UICollectionView
         cell.bodyLabel.text = email.body
         cell.unread = email.unread
         
-        cell.contentView.backgroundColor = UIColor.random.withAlphaComponent(0.2)
-        
         return cell
     }
     
@@ -171,7 +169,6 @@ extension MailCollectionViewController: SwipeCollectionViewCellDelegate {
         var options = SwipeTableOptions()
         options.expansionStyle = orientation == .left ? .selection : .destructive
         options.transitionStyle = defaultOptions.transitionStyle
-        options.buttonInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
         
         switch buttonStyle {
         case .backgroundColor:
@@ -197,18 +194,6 @@ extension MailCollectionViewController: SwipeCollectionViewCellDelegate {
             action.font = .systemFont(ofSize: 13)
             action.transitionDelegate = ScaleTransition.default
         }
-    }
-}
-
-extension CGFloat {
-    static var random: CGFloat {
-        return CGFloat(arc4random()) / CGFloat(UInt32.max)
-    }
-}
-
-extension UIColor {
-    static var random: UIColor {
-        return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
     }
 }
 

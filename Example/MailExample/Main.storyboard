@@ -228,12 +228,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="412" height="105"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V6f-x1-gG3">
-                                            <rect key="frame" x="10" y="10.000000000000004" width="392" height="60.333333333333343"/>
-                                            <color key="backgroundColor" red="0.30840110780000002" green="0.5618229508" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </view>
                                         <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="065-C6-P8B">
-                                            <rect key="frame" x="10" y="10.000000000000004" width="392" height="60.333333333333343"/>
+                                            <rect key="frame" x="10" y="10" width="392" height="60.333333333333343"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="fZw-sf-3AU">
                                                     <rect key="frame" x="0.0" y="0.0" width="392" height="20.333333333333332"/>
@@ -278,16 +274,12 @@
                                         </stackView>
                                     </subviews>
                                 </view>
-                                <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="0.18217572773972604" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="V6f-x1-gG3" firstAttribute="trailing" secondItem="065-C6-P8B" secondAttribute="trailing" id="QDs-re-oan"/>
-                                    <constraint firstItem="V6f-x1-gG3" firstAttribute="top" secondItem="065-C6-P8B" secondAttribute="top" id="YYr-XE-Qph"/>
-                                    <constraint firstItem="V6f-x1-gG3" firstAttribute="leading" secondItem="065-C6-P8B" secondAttribute="leading" id="bwN-Cv-xcb"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="065-C6-P8B" secondAttribute="bottom" constant="10" id="eEr-3c-T3S"/>
                                     <constraint firstAttribute="trailing" secondItem="065-C6-P8B" secondAttribute="trailing" constant="10" id="jJE-zN-B1B"/>
                                     <constraint firstItem="065-C6-P8B" firstAttribute="top" secondItem="S1K-zh-O8D" secondAttribute="top" constant="10" id="nu0-Fk-Xa9"/>
                                     <constraint firstItem="065-C6-P8B" firstAttribute="leading" secondItem="S1K-zh-O8D" secondAttribute="leading" constant="10" id="oYF-bx-76h"/>
-                                    <constraint firstItem="V6f-x1-gG3" firstAttribute="bottom" secondItem="065-C6-P8B" secondAttribute="bottom" id="zpl-L8-JCF"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="bodyLabel" destination="xAJ-FY-ANc" id="30F-qK-BJC"/>
