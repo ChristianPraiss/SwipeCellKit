@@ -15,9 +15,13 @@ protocol Swipeable {
     var state: SwipeState { get }
     
     var frame: CGRect { get }
+    
+    var swipeableFrame: CGRect { get }
 }
 
 extension SwipeTableViewCell: Swipeable {}
+
+extension SwipeCollectionViewCell: Swipeable {}
 
 enum SwipeState: Int {
     case center = 0

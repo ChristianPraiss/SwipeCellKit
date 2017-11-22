@@ -4,4 +4,7 @@
    <FileRef
       location = "group:SwipeCellKit.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Example/MailExample.xcodeproj">
+   </FileRef>
 </Workspace>
