@@ -94,7 +94,7 @@ class SwipeActionsView: UIView {
         
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = options.backgroundColor ?? #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
+        backgroundColor = options.backgroundColor ?? .clear
         
         buttons = addButtons(for: self.actions, withMaximum: maxSize)
     }
@@ -112,7 +112,16 @@ class SwipeActionsView: UIView {
             actionButton.contentEdgeInsets = buttonEdgeInsets(fromOptions: options)
             return actionButton
         })
-        
+        if let actionButton = buttons.last {
+        let maskPath = UIBezierPath(roundedRect: actionButton.bounds,
+                                       byRoundingCorners: [.topLeft, .topRight, .bottomLeft],
+                                       cornerRadii: CGSize(width: 10.0, height: 0.0))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = maskPath.cgPath
+            maskLayer.frame = actionButton.layer.bounds
+            actionButton.cornerMask = maskLayer
+        actionButton.layer.mask = maskLayer
+        }
         let maximum = options.maximumButtonWidth ?? (size.width - 30) / CGFloat(actions.count)
         minimumButtonWidth = buttons.reduce(options.minimumButtonWidth ?? 74, { initial, next in max(initial, next.preferredWidth(maximum: maximum)) })
         
@@ -120,6 +129,21 @@ class SwipeActionsView: UIView {
             let action = actions[index]
             let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
             let wrapperView = SwipeActionButtonWrapperView(frame: frame, action: action, orientation: orientation, contentWidth: minimumButtonWidth)
+            
+            guard action.hasBackgroundColor else { return }
+            
+            if let backgroundColor = action.backgroundColor {
+                button.backgroundColor = backgroundColor
+            } else {
+                switch action.style {
+                case .destructive:
+                    button.backgroundColor = #colorLiteral(red: 1, green: 0.2352941176, blue: 0.1882352941, alpha: 1)
+                default:
+                    button.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
+                }
+            }
+            
+            wrapperView.backgroundColor = .clear
             wrapperView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             wrapperView.addSubview(button)
             
@@ -241,23 +265,6 @@ class SwipeActionButtonWrapperView: UIView {
         }
         
         super.init(frame: frame)
-        
-        configureBackgroundColor(with: action)
-    }
-    
-    func configureBackgroundColor(with action: SwipeAction) {
-        guard action.hasBackgroundColor else { return }
-        
-        if let backgroundColor = action.backgroundColor {
-            self.backgroundColor = backgroundColor
-        } else {
-            switch action.style {
-            case .destructive:
-                backgroundColor = #colorLiteral(red: 1, green: 0.2352941176, blue: 0.1882352941, alpha: 1)
-            default:
-                backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
-            }
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {

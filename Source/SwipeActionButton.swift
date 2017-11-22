@@ -10,6 +10,7 @@ import UIKit
 class SwipeActionButton: UIButton {
     var spacing: CGFloat = 8
     var shouldHighlight = true
+    var cornerMask: CALayer?
     var highlightedBackgroundColor: UIColor?
 
     var maximumImageHeight: CGFloat = 0
@@ -85,6 +86,19 @@ class SwipeActionButton: UIButton {
         var rect = contentRect.center(size: currentImage?.size ?? .zero)
         rect.origin.y = alignmentRect.minY + (maximumImageHeight - rect.height) / 2
         return rect
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let maskLayer = self.cornerMask as? CAShapeLayer {		
+             let maskPath = UIBezierPath(roundedRect: self.bounds,		
+                                         byRoundingCorners: [.bottomRight, .topRight],		
+                                         cornerRadii: CGSize(width: 0.0, height: 0.0))		
+             maskLayer.path = maskPath.cgPath		
+             maskLayer.frame = self.layer.bounds		
+             self.cornerMask = maskLayer		
+             self.layer.mask = maskLayer		
+         }
     }
 }
 
