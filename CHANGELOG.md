@@ -2,7 +2,20 @@
 
 `SwipeCellKit` adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.9.1](https://github.com/jerkoch/SwipeCellKit/releases/tag/1.9.0)
+## [2.0.0](https://github.com/jerkoch/SwipeCellKit/releases/tag/2.0.0)
+
+#### Added
+
+- Add Swift 4 support
+- New `highlightedTextColor` property on `SwipeAction`. (#88)
+
+#### Fixed
+
+- Fix issue where swipe actions intermittently were not displayed when cell is swiped. (#85)
+
+---
+
+## [1.9.1](https://github.com/jerkoch/SwipeCellKit/releases/tag/1.9.1)
 
 #### Fixed
 

@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/jerkoch/SwipeCellKit.svg)](https://travis-ci.org/jerkoch/SwipeCellKit) 
 [![Version Status](https://img.shields.io/cocoapods/v/SwipeCellKit.svg)][podLink] 
-[![Swift 3.0](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![license MIT](https://img.shields.io/cocoapods/l/SwipeCellKit.svg)][mitLink] 
 [![Platform](https://img.shields.io/cocoapods/p/SwipeCellKit.svg)][docsLink] 
@@ -74,8 +73,8 @@ The expansion style describes the behavior when the cell is swiped past a define
 
 ## Requirements
 
-* Swift 3.0
-* Xcode 8
+* Swift 4.0
+* Xcode 9
 * iOS 9.0+
 
 ## Installation
@@ -87,9 +86,6 @@ use_frameworks!
 
 # Latest release in CocoaPods
 pod 'SwipeCellKit'
-
-# Latest Swift 4 release in CocoaPods
-pod 'SwipeCellKit', :git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'swift4'
 
 # Get the latest on develop
 pod 'SwipeCellKit', :git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'develop'
@@ -153,6 +149,10 @@ Three built-in transition styles are provided by `SwipeTransitionStyle`:
 * .reveal: The visible action area sits behind the cell, pinned to the edge of the table view, and is revealed as the cell is dragged aside.
 
 See [Customizing Transitions](https://github.com/SwipeCellKit/SwipeCellKit/blob/develop/Guides/Advanced.md) for more details on customizing button appearance as the swipe is performed.
+
+#### Transition Delegate
+
+Transition for a `SwipeAction` can be observered by setting a `SwipeActionTransitioning` on the `transitionDelegate` property. This allows you to observe what percentage is visible and access to the underlying `UIButton` for that `SwipeAction`. 
 
 ### Expansion
 

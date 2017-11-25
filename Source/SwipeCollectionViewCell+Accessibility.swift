@@ -1,19 +1,19 @@
 //
-//  SwipeTableViewCell+Accessibility.swift
+//  SwipeCollectionViewCell+Accessibility.swift
+//  SwipeCellKit
 //
-//  Created by Jeremy Koch
-//  Copyright © 2017 Jeremy Koch. All rights reserved.
+//  Created by Alex Habrusevich on 11/20/17.
 //
 
 import UIKit
 
-extension SwipeTableViewCell {
+extension SwipeCollectionViewCell {
     /// :nodoc:
     open override func accessibilityElementCount() -> Int {
         guard state != .center else {
             return super.accessibilityElementCount()
         }
-
+        
         return 1
     }
     
@@ -22,7 +22,7 @@ extension SwipeTableViewCell {
         guard state != .center else {
             return super.accessibilityElement(at: index)
         }
-
+        
         return actionsView
     }
     
@@ -31,21 +31,21 @@ extension SwipeTableViewCell {
         guard state != .center else {
             return super.index(ofAccessibilityElement: element)
         }
-
+        
         return element is SwipeActionsView ? 0 : NSNotFound
     }
 }
 
-extension SwipeTableViewCell {
+extension SwipeCollectionViewCell {
     /// :nodoc:
     open override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
         get {
-            guard let tableView = tableView, let indexPath = tableView.indexPath(for: self) else {
+            guard let collectionView = collectionView, let indexPath = collectionView.indexPath(for: self) else {
                 return super.accessibilityCustomActions
             }
             
-            let leftActions = delegate?.tableView(tableView, editActionsForRowAt: indexPath, for: .left) ?? []
-            let rightActions = delegate?.tableView(tableView, editActionsForRowAt: indexPath, for: .right) ?? []
+            let leftActions = delegate?.collectionView(collectionView, editActionsForItemAt: indexPath, for: .left) ?? []
+            let rightActions = delegate?.collectionView(collectionView, editActionsForItemAt: indexPath, for: .right) ?? []
             
             let actions = [rightActions.first, leftActions.first].flatMap({ $0 }) + rightActions.dropFirst() + leftActions.dropFirst()
             
@@ -65,32 +65,16 @@ extension SwipeTableViewCell {
     }
     
     @objc func performAccessibilityCustomAction(accessibilityCustomAction: SwipeAccessibilityCustomAction) -> Bool {
-        guard let tableView = tableView else { return false }
+        guard let collectionView = collectionView else { return false }
         
         let swipeAction = accessibilityCustomAction.action
         
         swipeAction.handler?(swipeAction, accessibilityCustomAction.indexPath)
         
         if swipeAction.style == .destructive {
-            tableView.deleteRows(at: [accessibilityCustomAction.indexPath], with: .fade)
+            collectionView.deleteItems(at: [accessibilityCustomAction.indexPath])
         }
         
         return true
-    }
-}
-
-class SwipeAccessibilityCustomAction: UIAccessibilityCustomAction {
-    let action: SwipeAction
-    let indexPath: IndexPath
-    
-    init(action: SwipeAction, indexPath: IndexPath, target: Any, selector: Selector) {
-        guard let name = action.accessibilityLabel ?? action.title ?? action.image?.accessibilityIdentifier else {
-            fatalError("You must provide either a title or an image for a SwipeAction")
-        }
-        
-        self.action = action
-        self.indexPath = indexPath
-        
-        super.init(name: name, target: target, selector: selector)
     }
 }

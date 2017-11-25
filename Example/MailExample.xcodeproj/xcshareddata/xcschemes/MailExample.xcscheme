@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3F234AC21E44A7A400E22A38"
-               BuildableName = "SwipeCellKit.framework"
-               BlueprintName = "SwipeCellKit"
-               ReferencedContainer = "container:SwipeCellKit.xcodeproj">
+               BlueprintIdentifier = "3F234AE21E44AA5E00E22A38"
+               BuildableName = "MailExample.app"
+               BlueprintName = "MailExample"
+               ReferencedContainer = "container:MailExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,7 +36,7 @@
             BlueprintIdentifier = "3F234AE21E44AA5E00E22A38"
             BuildableName = "MailExample.app"
             BlueprintName = "MailExample"
-            ReferencedContainer = "container:Example/MailExample.xcodeproj">
+            ReferencedContainer = "container:MailExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -60,7 +60,7 @@
             BlueprintIdentifier = "3F234AE21E44AA5E00E22A38"
             BuildableName = "MailExample.app"
             BlueprintName = "MailExample"
-            ReferencedContainer = "container:Example/MailExample.xcodeproj">
+            ReferencedContainer = "container:MailExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,15 +72,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3F234AC21E44A7A400E22A38"
-            BuildableName = "SwipeCellKit.framework"
-            BlueprintName = "SwipeCellKit"
-            ReferencedContainer = "container:SwipeCellKit.xcodeproj">
+            BlueprintIdentifier = "3F234AE21E44AA5E00E22A38"
+            BuildableName = "MailExample.app"
+            BlueprintName = "MailExample"
+            ReferencedContainer = "container:MailExample.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
