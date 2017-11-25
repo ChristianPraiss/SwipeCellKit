@@ -60,6 +60,9 @@ public protocol SwipeTableViewCellDelegate: class {
      - parameter orientation: The side of the cell.
      */
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation)
+    
+    func tableView(_ tableView: UITableView, didMoveRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation, toOffset offset: CGFloat)
+
 }
 
 /**

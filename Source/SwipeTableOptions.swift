@@ -42,6 +42,13 @@ public struct SwipeTableOptions {
     /// The amount of space, in points, between the button image and the button title.
     public var buttonSpacing: CGFloat?
     
+
+    public var rightCornerRadius: CGFloat?
+    public var leftCornerRadius: CGFloat?
+
+    /// The amount of space, in points, between the button and the cell's margins.
+    public var buttonInsets: UIEdgeInsets = .zero
+    
     /// Constructs a new `SwipeTableOptions` instance with default options.
     public init() {}
 }
